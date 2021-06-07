@@ -1,17 +1,24 @@
-import sys
-from PIL import Image
+# import sys
+# from PIL import Image
 
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
-from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.urls import reverse
 
-from io import BytesIO
+# from django.core.files.uploadedfile import InMemoryUploadedFile
+
+# from io import BytesIO
 
 # использование юзера из настроек (в начале создания проекта, был создан суперюзер)
 # settings.AUTH_USER_MODEL
 User = get_user_model()
+
+
+def get_product_url(obj, viewname):
+    ct_model = obj.__class__._meta.model_name
+    return reverse(viewname, kwargs={'ct-model': ct_model, 'slug': obj.slug})
 
 
 class MinResolutionErrorException(Exception):
@@ -52,7 +59,7 @@ class LatestProducts:
 # --------------
 # 1 Category
 # 2 Product
-# 3 CartProdut
+# 3 CartProduct
 # 4 Cart
 # 5 Order
 # ---------------
@@ -89,28 +96,28 @@ class Product(models.Model):
     def __str__(self):
         return self.title
 
-    def save(self, *args, **kwargs):
-        image = self.image
-        img = Image.open(image)
-        min_height, min_width = self.MIN_RESOLUTION
-        max_height, max_width = self.MAX_RESOLUTION
-        if img.height < min_height or img.width < min_width:
-            raise MinResolutionErrorException('Разрешение загруженного изображения меньше минимального!')
-        if img.height > max_height or img.width > max_width:
-            raise MaxResolutionErrorException('Разрешение загруженного изображения больше максимального!')
-        # # принудительная обрезка файла
-        # image = self.image
-        # img = Image.open(image)
-        # new_image = Image.convert('RGB')
-        # resized_new_image = new_image.resize((200, 200), Image.ANTIALIAS)
-        # filestream = BytesIO()
-        # resized_new_image.save(filestream, 'JPEG', quality=90)
-        # filestream.seek(0)
-        # name = '{}.{}'.format(*self.image.name.split('.'))
-        # self.image = InMemoryUploadedFile(
-        #     filestream, 'ImageField', name, 'jpeg/image', sys.getsizeof(filestream), None
-        # )
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     image = self.image
+    #     img = Image.open(image)
+    #     min_height, min_width = self.MIN_RESOLUTION
+    #     max_height, max_width = self.MAX_RESOLUTION
+    #     if img.height < min_height or img.width < min_width:
+    #         raise MinResolutionErrorException('Разрешение загруженного изображения меньше минимального!')
+    #     if img.height > max_height or img.width > max_width:
+    #         raise MaxResolutionErrorException('Разрешение загруженного изображения больше максимального!')
+    #     # # принудительная обрезка файла
+    #     # image = self.image
+    #     # img = Image.open(image)
+    #     # new_image = Image.convert('RGB')
+    #     # resized_new_image = new_image.resize((200, 200), Image.ANTIALIAS)
+    #     # filestream = BytesIO()
+    #     # resized_new_image.save(filestream, 'JPEG', quality=90)
+    #     # filestream.seek(0)
+    #     # name = '{}.{}'.format(*self.image.name.split('.'))
+    #     # self.image = InMemoryUploadedFile(
+    #     #     filestream, 'ImageField', name, 'jpeg/image', sys.getsizeof(filestream), None
+    #     # )
+    #     super().save(*args, **kwargs)
 
 # Холодильник
 #
@@ -121,16 +128,20 @@ class Product(models.Model):
 # количество полок
 # количество отделений морозильной камеры
 
+
 class Refrigerator(Product):
     overall_volume = models.CharField(max_length=255, verbose_name='Общий объем')
     useful_volume = models.CharField(max_length=255, verbose_name='Полезный объем')
-    noise_level = models.CharField(max_length=255, verbose_name='Тип управления')
-    control = models.CharField(max_length=255, verbose_name='Уровень шума')
+    control = models.CharField(max_length=255, verbose_name='Тип управления')
+    noise_level = models.CharField(max_length=255, verbose_name='Уровень шума')
     number_of_shelves = models.CharField(max_length=255, verbose_name='Количество полок')
     number_of_freezer_shelves = models.CharField(max_length=255, verbose_name='Количество полок морозильной камеры')
 
     def __str__(self):
         return "{} : {}".format(self.category.name, self.title)
+
+    def get_absolute_url(self):
+        return get_product_url(self, 'product_detail')
 
 
 # Стиральная машина
@@ -154,6 +165,39 @@ class Washer(Product):
     def __str__(self):
         return "{} : {}".format(self.category.name, self.title)
 
+    def get_absolute_url(self):
+        return get_product_url(self, 'product_detail')
+
+
+# Посудомоечная машина
+#
+# Максимальная загрузка (комплекты посуды)
+# Сушка
+# Количество программ
+# Уровень шума
+# Самая короткая программа
+# Расход воды за цикл
+# Управление
+# Блокировка от детей
+
+
+class Dishwasher(Product):
+    max_load = models.CharField(max_length=255, verbose_name='Максимальная загрузка (комплекты посуды)')
+    drying = models.BooleanField(default=True)
+    drying_type = models.CharField(max_length=255, verbose_name='Тип сушки')
+    number_of_programs = models.CharField(max_length=255, verbose_name='Количество программ')
+    noise_level = models.CharField(max_length=255, verbose_name='Уровень шума')
+    shortest_program = models.CharField(max_length=255, verbose_name='Время самой короткой программы')
+    water_consumption_per_cycle = models.CharField(max_length=255, verbose_name='Расход воды за цикл')
+    control = models.CharField(max_length=255, verbose_name='Тип управления')
+    child_lock = models.BooleanField(default=True)
+
+    def __str__(self):
+        return "{} : {}".format(self.category.name, self.title)
+
+    def get_absolute_url(self):
+        return get_product_url(self, 'product_detail')
+
 
 class CartProduct(models.Model):
     user = models.ForeignKey('Customer', verbose_name='Покупатель', on_delete=models.CASCADE)
@@ -165,7 +209,7 @@ class CartProduct(models.Model):
     final_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Общая стоимость')
 
     def __str__(self):
-        return "Продукт: {} (для корзины)".format(self.product.title)
+        return "Продукт: {} (для корзины)".format(self.content_object.title)
 
 
 class Cart(models.Model):
@@ -174,6 +218,8 @@ class Cart(models.Model):
     # для корректного отображения одинаковых товаров в корзине (показывать только уникальные)
     total_products = models.PositiveIntegerField(default=0)
     final_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Общая стоимость')
+    in_order = models.BooleanField(default=False)
+    for_anonymous_user = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.id)
