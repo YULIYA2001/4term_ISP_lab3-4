@@ -11,9 +11,25 @@ from django.urls import reverse
 
 # from io import BytesIO
 
+
+# --------------
+# 1 Category
+# 2 Product
+# 3 CartProduct
+# 4 Cart
+# 5 Order
+# ---------------
+# 6 Customer
+# 7 Specifications (Характеристики)
+
+
 # использование юзера из настроек (в начале создания проекта, был создан суперюзер)
 # settings.AUTH_USER_MODEL
 User = get_user_model()
+
+
+def get_models_for_count(*model_names):
+    return [models.Count(model_name) for model_name in model_names]
 
 
 def get_product_url(obj, viewname):
@@ -56,30 +72,45 @@ class LatestProducts:
     objects = LatestProductsManager
 
 
-# --------------
-# 1 Category
-# 2 Product
-# 3 CartProduct
-# 4 Cart
-# 5 Order
-# ---------------
-# 6 Customer
-# 7 Specifications (Характеристики)
+class CategoryManager(models.Manager):
+
+    CATEGORY_NAME_COUNT_NAME = {
+        'Холодильники': 'refrigerator__count',
+        'Стиральные машины': 'washer__count',
+        'Посудомоечные машины': 'dishwasher__count'
+    }
+
+    def get_queryset(self):
+        return super().get_queryset()
+
+    def get_categories_for_up_sidebar(self):
+        models = get_models_for_count('dishwasher', 'refrigerator', 'washer')
+        qs = list(self.get_queryset().annotate(*models))
+        data = [
+            dict(name=c.name, url=c.get_absolute_url(), count=getattr(c, self.CATEGORY_NAME_COUNT_NAME[c.name]))
+            for c in qs
+        ]
+        return data
+
 
 class Category(models.Model):
     name = models.CharField(max_length=255, verbose_name='Имя категории')
     # url .../categories/slug, только адекватное имя вместо slug
     slug = models.SlugField(unique=True)
+    objects = CategoryManager()
 
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('category_detail', kwargs={'slug': self.slug})
+
 
 class Product(models.Model):
-    MIN_RESOLUTION = (50, 50)
-    MAX_RESOLUTION = (1000, 1000)
-    # 3 Мб = 3145728 б
-    MAX_IMAGE_SIZE = 3145728
+    # MIN_RESOLUTION = (50, 50)
+    # MAX_RESOLUTION = (1000, 1000)
+    # # 3 Мб = 3145728 б
+    # MAX_IMAGE_SIZE = 3145728
 
     # данная модель - абстрактная (нельзя создать миграцию)
     class Meta:
@@ -183,20 +214,26 @@ class Washer(Product):
 
 class Dishwasher(Product):
     max_load = models.CharField(max_length=255, verbose_name='Максимальная загрузка (комплекты посуды)')
-    drying = models.BooleanField(default=True)
-    drying_type = models.CharField(max_length=255, verbose_name='Тип сушки')
+    drying = models.BooleanField(default=True, verbose_name='Наличие сушки')
+    drying_type = models.CharField(max_length=255, null=True, blank=True, verbose_name='Тип сушки')
     number_of_programs = models.CharField(max_length=255, verbose_name='Количество программ')
     noise_level = models.CharField(max_length=255, verbose_name='Уровень шума')
     shortest_program = models.CharField(max_length=255, verbose_name='Время самой короткой программы')
     water_consumption_per_cycle = models.CharField(max_length=255, verbose_name='Расход воды за цикл')
     control = models.CharField(max_length=255, verbose_name='Тип управления')
-    child_lock = models.BooleanField(default=True)
+    child_lock = models.BooleanField(default=True, verbose_name='Блокировка от детей')
 
     def __str__(self):
         return "{} : {}".format(self.category.name, self.title)
 
     def get_absolute_url(self):
         return get_product_url(self, 'product_detail')
+
+    # @property
+    # def drying(self):
+    #     if self.drying:
+    #         return 'Да'
+    #     return 'Нет'
 
 
 class CartProduct(models.Model):

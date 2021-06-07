@@ -31,6 +31,22 @@ from .models import *
 #         return image
 
 
+class DishwasherAdminForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        instance = kwargs.get('instance')
+        if not instance.drying:
+            self.fields['drying_type'].widget.attrs.update({
+                'readonly': True, 'style': 'background: lightgrey;'
+            })
+
+    def clean(self):
+        if not self.cleaned_data['drying']:
+            self.cleaned_data['drying_type'] = None
+        return self.cleaned_data
+
+
 class RefrigeratorAdmin(admin.ModelAdmin):
     # form = RefrigeratorAdminForm
 
@@ -49,6 +65,8 @@ class WasherAdmin(admin.ModelAdmin):
 
 
 class DishwasherAdmin(admin.ModelAdmin):
+    change_form_template = 'admin.html'
+    form = DishwasherAdminForm
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'category':

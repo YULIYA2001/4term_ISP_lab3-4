@@ -1,0 +1,22 @@
+{% extends 'admin/change_form.html' %}
+{% load static %}
+
+{% block admin_change_form_document_ready %}
+{{ block.super }}
+<script>
+<!-- если выбрано, что нет сушки, сделать так, чтобы невозможно было ввести ее тип -->
+(function($) {
+    $('#id_drying').on('click', function(){
+        if($('#id_drying').prop('checked') == true){
+            $('#id_drying_type').prop('readonly', false)
+            $('#id_drying_type').val('')
+            $('#id_drying_type').css('background', 'white')
+        }else{
+            $('#id_drying_type').prop('readonly', true)
+            $('#id_drying_type').val('')
+            $('#id_drying_type').css('background', 'lightgrey')
+        }
+    })
+})(django.jQuery);
+</script>
+{% endblock %}

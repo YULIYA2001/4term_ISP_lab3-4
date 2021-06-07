@@ -1,6 +1,8 @@
 from django import template
 from django.utils.safestring import mark_safe
 
+from mainapp.models import Dishwasher
+
 register = template.Library()
 
 TABLE_HEAD = """
@@ -62,4 +64,9 @@ def get_product_spec(product, model_name):
 @register.filter
 def product_spec(product):
     model_name = product.__class__._meta.model_name
+    if isinstance(product, Dishwasher):
+        if not product.drying:
+            PRODUCT_SPEC['dishwasher'].pop('Тип сушки')
+        else:
+            PRODUCT_SPEC['dishwasher']['Тип сушки'] = 'drying_type'
     return mark_safe(TABLE_HEAD + get_product_spec(product, model_name) + TABLE_TAIL)
