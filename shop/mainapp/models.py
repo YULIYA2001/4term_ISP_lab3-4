@@ -69,7 +69,7 @@ class LatestProductsManager:
 
 class LatestProducts:
 
-    objects = LatestProductsManager
+    objects = LatestProductsManager()
 
 
 class CategoryManager(models.Manager):
