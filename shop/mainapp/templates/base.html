@@ -42,11 +42,10 @@
             </div>
         </nav>
         <!-- Header-->
-        <header class="bg-dark py-5">
+        <header class="bg-dark py-1">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Shop in style</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
+                    <h1 class="display-4 fw-bolder">Бытовая техника</h1>
                 </div>
             </div>
         </header>
@@ -54,6 +53,14 @@
         <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5">
                 {% block content %}
+                {% if messages %}
+                   {% for message in messages %}
+                      <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>{{ message }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                   {% endfor %}
+                {% endif %}
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                     {% for product in products %}
                     <div class="col-lg-4 col-md-6 mb-4">
@@ -65,20 +72,20 @@
                                 }
                             </style>
                             <a href="{{ product.get_absolute_url }}"><img class="card-img-top" src="{{ product.image.url }}" alt=""></a>
-                            <div class="card-body">
+                            <div class="card-body" style="height: 280px">
                                 <h5 class="text-center">
                                     <a href="{{ product.get_absolute_url }}">{{ product.title }}</a>
                                 </h5>
                                 <style>h5 {line-height: 1.5;}</style>
                                 <h6 class="text-center">{{ product.price }} руб.</h6>
                                 <a href=" {% url 'add_to_cart' ct_model=product.get_model_name slug=product.slug %}">
-                                    <button style="width: 190px; text-align: center;" class="btn btn-danger">Добавить в корзину</button>
+                                    <button style="position: absolute; bottom: 30px; width: 190px; text-align: center;" class="btn btn-danger wb-3">Добавить в корзину</button>
                                 </a>
                             </div>
                         </div>
                     </div>
                     {% endfor %}
-                    </div>
+                </div>
                 {% endblock content %}
             </div>
         </section>

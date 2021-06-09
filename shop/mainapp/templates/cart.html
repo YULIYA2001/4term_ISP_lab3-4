@@ -16,10 +16,10 @@
   <thead>
     <tr>
       <th scope="col"></th>
-      <th scope="col">Наименование</th>
-      <th scope="col">Стоимость</th>
-      <th scope="col">Кол-во</th>
-      <th scope="col">Общая стоимость</th>
+      <th scope="col" style="width: 170px;">Наименование</th>
+      <th scope="col" style="width: 170px;">Стоимость</th>
+      <th scope="col" style="width: 120px;">Кол-во</th>
+      <th scope="col"style="width: 200px;">Общая стоимость</th>
       <th scope="col"></th>
     </tr>
   </thead>
@@ -30,11 +30,10 @@
     border-bottom: 2px solid #000; /* Линия внизу таблицы */
    }
    TH {
-    text-align: center; /* Выравнивание текста по левому краю */
-    width: 100px; /* Ширина ячейки */
+    text-align: center; /* Выравнивание текста по центру */
    }
    TD {
-    text-align: center; /* Выравнивание текста по левому краю */
+    text-align: center; /* Выравнивание текста по центру */
    }
   </style>
 
@@ -60,9 +59,10 @@
     {% endfor %}
       <tr>
         <td valign="middle" colspan="2"></td>
-        <td>Итого:</td>
-        <td>{{ cart.total_products }}</td>
-        <td><strong>{{ cart.final_price }} руб.</strong></td>
+        <td valign="middle">Итого:</td>
+        <td valign="middle">{{ cart.total_products }}</td>
+        <td valign="middle"><strong>{{ cart.final_price }} руб.</strong></td>
+        <td><a href="{% url 'checkout' %}"><button class="btn btn-success">Перейти к оформлению</button></a></td>
         <td></td>
       </tr>
       </tr>

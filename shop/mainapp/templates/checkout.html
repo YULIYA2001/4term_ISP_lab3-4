@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<h2 class="text-center mt-5 bm-5" style="color:green"><strong>Оформление заказа</strong></h2><br>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Наименование</th>
+      <th scope="col">Стоимость</th>
+      <th scope="col">Кол-во</th>
+      <th scope="col">Общая стоимость</th>
+    </tr>
+  </thead>
+
+  <style type="text/css">
+   TABLE {
+        border-top: 2px solid #000; /* Линия сверху таблицы */
+        border-bottom: 2px solid #000; /* Линия внизу таблицы */
+   }
+   TH {
+        text-align: center; /* Выравнивание текста по центру */
+   }
+   TD {
+        text-align: center; /* Выравнивание текста по центру */
+   }
+  </style>
+
+  <tbody>
+    {% for item in cart.products.all %}
+      <tr>
+        <th valign="middle" scope="row" style="text-align: left">{{ item.content_object.title }}</th>
+        <td valign="middle">{{ item.content_object.price }} руб.</td>
+        <td>{{ item.qty }}</td>
+        <td valign="middle">{{ item.final_price }} руб.</td>
+      </tr>
+    {% endfor %}
+      <tr>
+        <td valign="middle" colspan="1"></td>
+        <td valign="middle">Итого:</td>
+        <td valign="middle">{{ cart.total_products }}</td>
+        <td valign="middle"><strong>{{ cart.final_price }} руб.</strong></td>
+        <td></td>
+      </tr>
+      </tr>
+  </tbody>
+</table>
+<h2 class="text-center mt-5 mb-5" style="color:green;"><strong>Форма заказа</strong></h2>
+<form action="{% url 'make_order' %}" method="POST">
+  {% csrf_token %}
+  {{ form|crispy }}
+  <input type="submit" style="width: 1045px;" class="btn btn-success btn-block mt-3 mb-3 mr-3 ml-3" value="Оформить заказ">
+</form>
+
+{% endblock content %}

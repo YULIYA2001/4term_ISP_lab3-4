@@ -22,14 +22,14 @@
                 }
             </style>
             <a href="{{ product.get_absolute_url }}"><img class="card-img-top" src="{{ product.image.url }}" alt=""></a>
-            <div class="card-body">
+            <div class="card-body" style="height: 280px">
                 <h5 class="text-center">
                     <a href="{{ product.get_absolute_url }}">{{ product.title }}</a>
                 </h5>
                 <style>h5 {line-height: 1.5;}</style>
                 <h6 class="text-center">{{ product.price }} руб.</h6>
                 <a href=" {% url 'add_to_cart' ct_model=product.get_model_name slug=product.slug %}">
-                    <button style="position: absolute; bottom: 15px; width: 190px; text-align: center;" class="btn btn-danger">Добавить в корзину</button>
+                    <button style="position: absolute; bottom: 30px; width: 190px; text-align: center;" class="btn btn-danger">Добавить в корзину</button>
                 </a>
             </div>
         </div>
