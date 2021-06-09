@@ -1,5 +1,5 @@
-# import sys
-# from PIL import Image
+import sys
+from PIL import Image
 
 from django.db import models
 from django.contrib.auth import get_user_model
@@ -7,10 +7,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.urls import reverse
 
-# from django.core.files.uploadedfile import InMemoryUploadedFile
-
-# from io import BytesIO
-
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from io import BytesIO
 
 # --------------
 # 1 Category
@@ -55,7 +53,7 @@ class LatestProductsManager:
         products = []
         ct_models = ContentType.objects.filter(model__in=args)
         for ct_model in ct_models:
-            model_products = ct_model. model_class()._base_manager.all().order_by('-id')[:5]
+            model_products = ct_model.model_class()._base_manager.all().order_by('-id')[:5]
             products.extend(model_products)
         if with_respect_to:
             ct_model = ContentType.objects.filter(model=with_respect_to)
@@ -68,12 +66,10 @@ class LatestProductsManager:
 
 
 class LatestProducts:
-
     objects = LatestProductsManager()
 
 
 class CategoryManager(models.Manager):
-
     CATEGORY_NAME_COUNT_NAME = {
         'Холодильники': 'refrigerator__count',
         'Стиральные машины': 'washer__count',
@@ -111,6 +107,8 @@ class Product(models.Model):
     # MAX_RESOLUTION = (1000, 1000)
     # # 3 Мб = 3145728 б
     # MAX_IMAGE_SIZE = 3145728
+    # масштабирование всех картинок до 700х400
+    THUMBNAIL_SIZE = (300, 400)
 
     # данная модель - абстрактная (нельзя создать миграцию)
     class Meta:
@@ -126,6 +124,25 @@ class Product(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_model_name(self):
+        return self.__class__.__name__.lower()
+
+    def save(self, *args, **kwargs):
+        # уменьшение картинки до нужных размеров
+        background = Image.new('RGB', self.THUMBNAIL_SIZE, "white")
+        source_image = Image.open(self.image).convert("RGB")
+        source_image.thumbnail(self.THUMBNAIL_SIZE)
+        (w, h) = source_image.size
+        background.paste(source_image, ((self.THUMBNAIL_SIZE[0] - w) // 2, (self.THUMBNAIL_SIZE[1] - h) // 2))
+        filestream = BytesIO()
+        background.save(filestream, 'JPEG', quality=90)
+        filestream.seek(0)
+        name = '{}.{}'.format(*self.image.name.split('.'))
+        self.image = InMemoryUploadedFile(
+            filestream, 'ImageField', name, 'jpeg/image', sys.getsizeof(filestream), None
+        )
+        super().save(*args, **kwargs)
 
     # def save(self, *args, **kwargs):
     #     image = self.image
@@ -150,6 +167,7 @@ class Product(models.Model):
     #     # )
     #     super().save(*args, **kwargs)
 
+
 # Холодильник
 #
 # общий объем
@@ -172,7 +190,8 @@ class Refrigerator(Product):
         return "{} : {}".format(self.category.name, self.title)
 
     def get_absolute_url(self):
-        return get_product_url(self, 'product_detail')
+        return "/products/refrigerator/" + self.slug
+        # return get_product_url(self, 'product_detail')
 
 
 # Стиральная машина
@@ -197,7 +216,8 @@ class Washer(Product):
         return "{} : {}".format(self.category.name, self.title)
 
     def get_absolute_url(self):
-        return get_product_url(self, 'product_detail')
+        return "/products/washer/" + self.slug
+        # return get_product_url(self, 'product_detail')
 
 
 # Посудомоечная машина
@@ -227,7 +247,9 @@ class Dishwasher(Product):
         return "{} : {}".format(self.category.name, self.title)
 
     def get_absolute_url(self):
-        return get_product_url(self, 'product_detail')
+        return "/products/dishwasher/" + self.slug
+        # return get_product_url(self, 'product_detail')
+
 
     # @property
     # def drying(self):
@@ -248,24 +270,37 @@ class CartProduct(models.Model):
     def __str__(self):
         return "Продукт: {} (для корзины)".format(self.content_object.title)
 
+    def save(self, *args, **kwargs):
+        self.final_price = self.qty * self.content_object.price
+        super().save(*args, **kwargs)
+
 
 class Cart(models.Model):
-    owner = models.ForeignKey('Customer', verbose_name='Владелец', on_delete=models.CASCADE)
+    owner = models.ForeignKey('Customer', null=True, verbose_name='Владелец', on_delete=models.CASCADE)
     products = models.ManyToManyField(CartProduct, blank=True, related_name='related_cart')
     # для корректного отображения одинаковых товаров в корзине (показывать только уникальные)
     total_products = models.PositiveIntegerField(default=0)
-    final_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Общая стоимость')
+    final_price = models.DecimalField(max_digits=9, default=0, decimal_places=2, verbose_name='Общая стоимость')
     in_order = models.BooleanField(default=False)
     for_anonymous_user = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.id)
 
+    def save(self, *args, **kwargs):
+        cart_data = self.products.aggregate(models.Sum('final_price'), models.Count('id'))
+        if cart_data.get('final_price__sum'):
+            self.final_price = cart_data['final_price__sum']
+        else:
+            self.final_price = 0
+        self.total_products = cart_data['id__count']
+        super().save(*args, **kwargs)
+
 
 class Customer(models.Model):
     user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
-    phone = models.CharField(max_length=20, verbose_name='Номер телефона')
-    address = models.CharField(max_length=255, verbose_name='Адрес')
+    phone = models.CharField(max_length=20, verbose_name='Номер телефона', null=True, blank=True)
+    address = models.CharField(max_length=255, verbose_name='Адрес', null=True, blank=True)
 
     def __str__(self):
         return 'Покупатель {} {}'.format(self.user.first_name, self.user.last_name)

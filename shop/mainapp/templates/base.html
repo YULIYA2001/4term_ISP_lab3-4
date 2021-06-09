@@ -17,17 +17,14 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#!">Start Bootstrap</a>
+                <a class="navbar-brand" href="{% url 'base' %}">Главная</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Контакты</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ 'Категории' }}</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-<!--                                <li><a class="dropdown-item" href="#!">{{ 'Крупногабаритная бытовая техника' }}</a></li>-->
-<!--                                <li><hr class="dropdown-divider" /></li>-->
                                 {% for category in categories %}
                                 <li><a class="dropdown-item" href="{{ category.url }}">{{ category.name }} ({{ category.count }})</a></li>
                                 {% endfor %}
@@ -35,11 +32,11 @@
                         </li>
                     </ul>
                     <form class="d-flex">
-                        <button class="btn btn-outline-dark" type="submit">
+                        <a class="nav-link" href="{% url 'cart' %}" style="color: green">
                             <i class="bi-cart-fill me-1"></i>
-                            Cart
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                        </button>
+                            <b>Корзина</b>
+                            <span class="badge bg-success text-white ms-1 rounded-pill">{{ cart.products.count }}</span>
+                        </a>
                     </form>
                 </div>
             </div>
@@ -57,16 +54,26 @@
         <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5">
                 {% block content %}
-                <div class="row">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                     {% for product in products %}
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="card h-100">
-                            <a href="{{ 'product.get_absolute_url' }}"><img class="card-img-top" src="{{ product.image.url }}" alt=""></a>
+                            <style>
+                                a {
+                                    color: green; /* Цвет ссылок */
+                                    text-decoration: none; /* Отменяем подчеркивание у ссылки */
+                                }
+                            </style>
+                            <a href="{{ product.get_absolute_url }}"><img class="card-img-top" src="{{ product.image.url }}" alt=""></a>
                             <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="{{ 'product.get_absolute_url' }}">{{ product.title }}</a>
-                                </h4>
-                                <h5>{{ product.get_absolute_url }}{{ product.price }} руб.</h5>
+                                <h5 class="text-center">
+                                    <a href="{{ product.get_absolute_url }}">{{ product.title }}</a>
+                                </h5>
+                                <style>h5 {line-height: 1.5;}</style>
+                                <h6 class="text-center">{{ product.price }} руб.</h6>
+                                <a href=" {% url 'add_to_cart' ct_model=product.get_model_name slug=product.slug %}">
+                                    <button style="width: 190px; text-align: center;" class="btn btn-danger">Добавить в корзину</button>
+                                </a>
                             </div>
                         </div>
                     </div>

@@ -36,10 +36,11 @@ class DishwasherAdminForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         instance = kwargs.get('instance')
-        if not instance.drying:
-            self.fields['drying_type'].widget.attrs.update({
-                'readonly': True, 'style': 'background: lightgrey;'
-            })
+        if isinstance(self, Dishwasher):
+            if not instance.drying:
+                self.fields['drying_type'].widget.attrs.update({
+                    'readonly': True, 'style': 'background: lightgrey;'
+                })
 
     def clean(self):
         if not self.cleaned_data['drying']:
