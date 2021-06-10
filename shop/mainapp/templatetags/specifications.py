@@ -56,7 +56,12 @@ PRODUCT_SPEC = {
 def get_product_spec(product, model_name):
     table_content = ''
     for name, value in PRODUCT_SPEC[model_name].items():
-        table_content += TABLE_CONTENT.format(name=name, value=getattr(product, value))
+        value = getattr(product, value)
+        if value is True:
+            value = 'Да'
+        elif value is False:
+            value = 'Нет'
+        table_content += TABLE_CONTENT.format(name=name, value=value)
     return table_content
 
 
