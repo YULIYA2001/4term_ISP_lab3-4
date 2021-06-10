@@ -165,3 +165,7 @@ class MakeOrderView(CartMixin, View):
             messages.add_message(request, messages.INFO, 'Спасибо за заказ!')
             return HttpResponseRedirect('/')
         return HttpResponseRedirect('/checkout/')
+
+
+def contacts(request):
+    return render(request, 'contacts.html')
