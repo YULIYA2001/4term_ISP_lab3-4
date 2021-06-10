@@ -84,10 +84,12 @@ WSGI_APPLICATION = 'shop.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'read_default_file': '/home/yuliya/ISP/lab3-4/shop/my.cnf',
-        },
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'shop_db',
+        'USER': 'shopuser',
+        'PASSWORD': 'devpass',
+        'HOST': '127.0.0.1',
+        'PORT': 5432
     }
 }
 

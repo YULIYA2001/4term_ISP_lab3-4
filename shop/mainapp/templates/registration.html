@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="row" style="margin-bottom:50px; margin-top:10px;">
+  <div class="col-md-6 offset-md-3">
+    <h1 class="text-center" style="color:green"><strong>Регистрация</strong></h1>
+    <br>
+    <form action="" method="POST">
+      {% csrf_token %}
+      {{ form|crispy}}
+      <input type="submit" class="btn btn-success mt-3" value="Подтвердить">
+    </form>
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,25 +1,15 @@
 import sys
 from PIL import Image
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.fields import GenericForeignKey
 from django.urls import reverse
 from django.utils import timezone
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from io import BytesIO
-
-# --------------
-# 1 Category
-# 2 Product
-# 3 CartProduct
-# 4 Cart
-# 5 Order
-# ---------------
-# 6 Customer
-# 7 Specifications (Характеристики)
 
 
 # использование юзера из настроек (в начале создания проекта, был создан суперюзер)
@@ -29,19 +19,6 @@ User = get_user_model()
 
 def get_models_for_count(*model_names):
     return [models.Count(model_name) for model_name in model_names]
-
-
-def get_product_url(obj, viewname):
-    ct_model = obj.__class__._meta.model_name
-    return reverse(viewname, kwargs={'ct-model': ct_model, 'slug': obj.slug})
-
-
-class MinResolutionErrorException(Exception):
-    pass
-
-
-class MaxResolutionErrorException(Exception):
-    pass
 
 
 class LatestProductsManager:
@@ -102,12 +79,14 @@ class Category(models.Model):
     def get_absolute_url(self):
         return reverse('category_detail', kwargs={'slug': self.slug})
 
+    def get_fields_for_filter_in_template(self):
+        return ProductFeatures.objects.filter(
+            category=self,
+            use_in_filter=True
+        ).prefeatch_related('category').value('feature_key', 'feature_measure', 'feature_name', 'filter_type')
+
 
 class Product(models.Model):
-    # MIN_RESOLUTION = (50, 50)
-    # MAX_RESOLUTION = (1000, 1000)
-    # # 3 Мб = 3145728 б
-    # MAX_IMAGE_SIZE = 3145728
     # масштабирование всех картинок до 700х400
     THUMBNAIL_SIZE = (300, 400)
 
@@ -145,38 +124,8 @@ class Product(models.Model):
         )
         super().save(*args, **kwargs)
 
-    # def save(self, *args, **kwargs):
-    #     image = self.image
-    #     img = Image.open(image)
-    #     min_height, min_width = self.MIN_RESOLUTION
-    #     max_height, max_width = self.MAX_RESOLUTION
-    #     if img.height < min_height or img.width < min_width:
-    #         raise MinResolutionErrorException('Разрешение загруженного изображения меньше минимального!')
-    #     if img.height > max_height or img.width > max_width:
-    #         raise MaxResolutionErrorException('Разрешение загруженного изображения больше максимального!')
-    #     # # принудительная обрезка файла
-    #     # image = self.image
-    #     # img = Image.open(image)
-    #     # new_image = Image.convert('RGB')
-    #     # resized_new_image = new_image.resize((200, 200), Image.ANTIALIAS)
-    #     # filestream = BytesIO()
-    #     # resized_new_image.save(filestream, 'JPEG', quality=90)
-    #     # filestream.seek(0)
-    #     # name = '{}.{}'.format(*self.image.name.split('.'))
-    #     # self.image = InMemoryUploadedFile(
-    #     #     filestream, 'ImageField', name, 'jpeg/image', sys.getsizeof(filestream), None
-    #     # )
-    #     super().save(*args, **kwargs)
-
-
-# Холодильник
-#
-# общий объем
-# полезный объем
-# управление
-# уровень шума
-# количество полок
-# количество отделений морозильной камеры
+    def get_absolute_url(self):
+        return reverse('product_detail', kwargs={'slug': self.slug})
 
 
 class Refrigerator(Product):
@@ -192,17 +141,6 @@ class Refrigerator(Product):
 
     def get_absolute_url(self):
         return "/products/refrigerator/" + self.slug
-        # return get_product_url(self, 'product_detail')
-
-
-# Стиральная машина
-#
-# Максимальная загрузка
-# Максимальная скорость отжима
-# Количество программ
-# Самая короткая программа
-# Расход электроэнергии за цикл
-# Расход воды за цикл
 
 
 class Washer(Product):
@@ -218,19 +156,6 @@ class Washer(Product):
 
     def get_absolute_url(self):
         return "/products/washer/" + self.slug
-        # return get_product_url(self, 'product_detail')
-
-
-# Посудомоечная машина
-#
-# Максимальная загрузка (комплекты посуды)
-# Сушка
-# Количество программ
-# Уровень шума
-# Самая короткая программа
-# Расход воды за цикл
-# Управление
-# Блокировка от детей
 
 
 class Dishwasher(Product):
@@ -249,21 +174,16 @@ class Dishwasher(Product):
 
     def get_absolute_url(self):
         return "/products/dishwasher/" + self.slug
-        # return get_product_url(self, 'product_detail')
-
-    # @property
-    # def Drying(self):
-    #     if self.drying:
-    #         return "Да"
-    #     return "Нет"
 
 
 class CartProduct(models.Model):
     user = models.ForeignKey('Customer', verbose_name='Покупатель', on_delete=models.CASCADE)
     cart = models.ForeignKey('Cart', verbose_name='Корзина', on_delete=models.CASCADE, related_name='related_products')
+
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
+    #product = models.ForeignKey(Product, verbose_name='Товар', on_delete=models.CASCADE)
     qty = models.PositiveIntegerField(default=1)
     final_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Общая стоимость')
 
@@ -337,3 +257,62 @@ class Order(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+
+# class ProductFeatures(models.Model):
+#
+#     RADIO = 'radio'
+#     CHECKBOX = 'checkbox'
+#
+#     FILTER_TYPE_CHOICES = (
+#         (RADIO, 'Радиокнопка'),
+#         (CHECKBOX, 'Чекбокс')
+#     )
+#     feature_key = models.CharField(max_length=100, verbose_name='Наименование характеристики')
+#     feature_name = models.CharField(max_length=255, verbose_name='Ключ характеристики')
+#     category = models.ForeignKey(Category, verbose_name='Категория', on_delete=models.CASCADE)
+#     postfix_for_value = models.CharField(
+#         max_length=20,
+#         null=True,
+#         blank=True,
+#         verbose_name='Постфикс для значения',
+#         help_text=f'Например для характеристики "Общий объем" можно добавить постфикс "л" (45 л)'
+#     )
+#     use_in_filter = models.BooleanField(
+#         default=False,
+#         verbose_name='Использовать фильтрации товаров в шаблоне'
+#     )
+#     filter_type = models.CharField(
+#         max_length=20,
+#         verbose_name='Тип фильтра',
+#         default=CHECKBOX,
+#         choices=FILTER_TYPE_CHOICES
+#     )
+#     filter_measure = models.CharField(
+#         max_length=50,
+#         verbose_name='Единица измерения для фильтра',
+#         help_text='Единица измерения для конкретного фильтра. Например "Расход энергии (кВт·ч)".'
+#                   ' Единица измерения - информация в скобках.'
+#     )
+#
+#     def __str__(self):
+#         return f'Категория - "{self.category.name}" | Характеристика - "{self.feature_name}"'
+#
+#
+# class ProductFeatureValidators(models.Model):
+#
+#     category = models.ForeignKey(Category, verbose_name='Категория', on_delete=models.CASCADE)
+#     feature = models.ForeignKey(
+#         ProductFeatures, verbose_name='Характеристика', null=True, blank=True, on_delete=models.CASCADE
+#     )
+#     feature_value = models.CharField(
+#         max_length=255, unique=True, null=True, blank=True, verbose_name='Значение характеристики'
+#     )
+#
+#     def __str__(self):
+#         if not self.feature:
+#             return f'Валидатор категории "{self.category.name}" - характеристика не выбрана'
+#         return f'Валидатор категории "{self.category.name}" | ' \
+#             f'Характеристика "{self.feature.feature_name}" | ' \
+#             f'Значение "{self.feature_value}"'
+

@@ -5,7 +5,7 @@
 <nav aria-label="breadcrumb ">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{% url 'base' %}">Главная</a></li>
-    <li class="breadcrumb-item"><a href="{{ product.category.get_absolute.url }}">{{ product.category.name }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a></li>
     <li class="breadcrumb-item active" aria-current="page">{{ product.title }}</li>
   </ol>
 </nav>
@@ -25,13 +25,8 @@
     <!-- 1 способ (использование тегов) -->
     {{ product|product_spec }}
 
-<!--    с использованием refrigerator_specification.html и washer_specification.html (2 способ) -->
-<!--    {% if product.category.slug == 'refrigerators' %} -->
-<!--        {% include 'refrigerator_specification.html' %} -->
-<!--    {% else %} -->
-<!--        {% include 'washer_specification.html' %} -->
-<!--    {% endif %} -->
-
 </div>
 
 {% endblock content %}
+
+

@@ -23,13 +23,33 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'contacts' %}">Контакты</a></li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ 'Категории' }}</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Категории
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 {% for category in categories %}
-                                <li><a class="dropdown-item" href="{{ category.url }}">{{ category.name }} ({{ category.count }})</a></li>
+                                    <a class="dropdown-item" href="{{ category.url}}">{{ category.name }} ({{ category.count }})</a>
                                 {% endfor %}
-                            </ul>
+                            </div>
                         </li>
+                        {% if not request.user.is_authenticated %}
+                            <li>
+                                <a class="nav-link text-dark" href="{% url 'login' %}">Авторизация</a>
+                            </li>
+                            <li>
+                                <a class="nav-link text-dark" href="{% url 'registration' %}">Регистрация</a>
+                            </li>
+                        {% endif %}
+                            <li class="nav-item">
+                                {% if request.user.is_authenticated %}
+                                <span class="navbar text" style="color:red; margin-left: 35px;">Добро пожаловать,
+                                    <span class="badge badge-danger">
+                                        <a style="text-decoration: none; font-size:18px; color: red" href="{% url 'profile' %}">{{ request.user.username }}</a>
+                                        <a href="{% url 'logout' %}"style="font-size:18px">|Выйти</a>
+                                    </span>
+                                </span>
+                                {% endif %}
+                            </li>
                     </ul>
                     <form class="d-flex">
                         <a class="nav-link" href="{% url 'cart' %}" style="color: green">
