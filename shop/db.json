@@ -1,0 +1,1051 @@
+[
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2021-06-10T20:21:10.434Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "1",
+    "object_repr": "Холодильники",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2021-06-10T20:21:18.797Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "2",
+    "object_repr": "Стиральные машины",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2021-06-10T20:21:26.080Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "3",
+    "object_repr": "Посудомоечные машины",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2021-06-10T20:26:02.379Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "1",
+    "object_repr": "Посудомоечные машины : Посудомоечная машина Samsung DW50R4070BB",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2021-06-10T20:28:11.286Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "2",
+    "object_repr": "Посудомоечные машины : Посудомоечная машина Midea MCFD55320W",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2021-06-10T20:30:06.471Z",
+    "user": 1,
+    "content_type": 14,
+    "object_id": "1",
+    "object_repr": "Холодильники : Холодильник Bosch Serie 4 VitaFresh KGN39XL27R",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2021-06-10T20:32:44.544Z",
+    "user": 1,
+    "content_type": 14,
+    "object_id": "1",
+    "object_repr": "Холодильники : Холодильник Bosch Serie 4 VitaFresh KGN39XL27R",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u0431\\u0449\\u0438\\u0439 \\u043e\\u0431\\u044a\\u0435\\u043c\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2021-06-10T20:33:04.045Z",
+    "user": 1,
+    "content_type": 14,
+    "object_id": "2",
+    "object_repr": "Холодильники : Холодильник Indesit ITS 4200 W",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 9,
+  "fields": {
+    "action_time": "2021-06-10T20:36:06.865Z",
+    "user": 1,
+    "content_type": 15,
+    "object_id": "1",
+    "object_repr": "Стиральные машины : Стиральная машина Candy CSS41272DB3/2",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 10,
+  "fields": {
+    "action_time": "2021-06-10T20:37:24.337Z",
+    "user": 1,
+    "content_type": 15,
+    "object_id": "2",
+    "object_repr": "Стиральные машины : Стиральная машина Bosch WHA122XEBL",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 11,
+  "fields": {
+    "action_time": "2021-06-10T20:50:27.058Z",
+    "user": 1,
+    "content_type": 14,
+    "object_id": "2",
+    "object_repr": "Холодильники : Холодильник Indesit ITS 4200 W",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u0418\\u0437\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u0438\\u0435\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 12,
+  "fields": {
+    "action_time": "2021-06-10T20:51:01.306Z",
+    "user": 1,
+    "content_type": 14,
+    "object_id": "2",
+    "object_repr": "Холодильники : Холодильник Indesit ITS 4200 W",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u0418\\u0437\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u0438\\u0435\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 13,
+  "fields": {
+    "action_time": "2021-06-10T20:51:09.655Z",
+    "user": 1,
+    "content_type": 14,
+    "object_id": "1",
+    "object_repr": "Холодильники : Холодильник Bosch Serie 4 VitaFresh KGN39XL27R",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u0418\\u0437\\u043e\\u0431\\u0440\\u0430\\u0436\\u0435\\u043d\\u0438\\u0435\"]}}]"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 1,
+  "fields": {
+    "name": "Can add log entry",
+    "content_type": 1,
+    "codename": "add_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 2,
+  "fields": {
+    "name": "Can change log entry",
+    "content_type": 1,
+    "codename": "change_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 3,
+  "fields": {
+    "name": "Can delete log entry",
+    "content_type": 1,
+    "codename": "delete_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 4,
+  "fields": {
+    "name": "Can view log entry",
+    "content_type": 1,
+    "codename": "view_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 5,
+  "fields": {
+    "name": "Can add permission",
+    "content_type": 2,
+    "codename": "add_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 6,
+  "fields": {
+    "name": "Can change permission",
+    "content_type": 2,
+    "codename": "change_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 7,
+  "fields": {
+    "name": "Can delete permission",
+    "content_type": 2,
+    "codename": "delete_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 8,
+  "fields": {
+    "name": "Can view permission",
+    "content_type": 2,
+    "codename": "view_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 9,
+  "fields": {
+    "name": "Can add group",
+    "content_type": 3,
+    "codename": "add_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 10,
+  "fields": {
+    "name": "Can change group",
+    "content_type": 3,
+    "codename": "change_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 11,
+  "fields": {
+    "name": "Can delete group",
+    "content_type": 3,
+    "codename": "delete_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 12,
+  "fields": {
+    "name": "Can view group",
+    "content_type": 3,
+    "codename": "view_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 13,
+  "fields": {
+    "name": "Can add user",
+    "content_type": 4,
+    "codename": "add_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 14,
+  "fields": {
+    "name": "Can change user",
+    "content_type": 4,
+    "codename": "change_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 15,
+  "fields": {
+    "name": "Can delete user",
+    "content_type": 4,
+    "codename": "delete_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 16,
+  "fields": {
+    "name": "Can view user",
+    "content_type": 4,
+    "codename": "view_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 17,
+  "fields": {
+    "name": "Can add content type",
+    "content_type": 5,
+    "codename": "add_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 18,
+  "fields": {
+    "name": "Can change content type",
+    "content_type": 5,
+    "codename": "change_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 19,
+  "fields": {
+    "name": "Can delete content type",
+    "content_type": 5,
+    "codename": "delete_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 20,
+  "fields": {
+    "name": "Can view content type",
+    "content_type": 5,
+    "codename": "view_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 21,
+  "fields": {
+    "name": "Can add session",
+    "content_type": 6,
+    "codename": "add_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 22,
+  "fields": {
+    "name": "Can change session",
+    "content_type": 6,
+    "codename": "change_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 23,
+  "fields": {
+    "name": "Can delete session",
+    "content_type": 6,
+    "codename": "delete_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 24,
+  "fields": {
+    "name": "Can view session",
+    "content_type": 6,
+    "codename": "view_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 25,
+  "fields": {
+    "name": "Can add cart",
+    "content_type": 7,
+    "codename": "add_cart"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 26,
+  "fields": {
+    "name": "Can change cart",
+    "content_type": 7,
+    "codename": "change_cart"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 27,
+  "fields": {
+    "name": "Can delete cart",
+    "content_type": 7,
+    "codename": "delete_cart"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 28,
+  "fields": {
+    "name": "Can view cart",
+    "content_type": 7,
+    "codename": "view_cart"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 29,
+  "fields": {
+    "name": "Can add category",
+    "content_type": 8,
+    "codename": "add_category"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 30,
+  "fields": {
+    "name": "Can change category",
+    "content_type": 8,
+    "codename": "change_category"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 31,
+  "fields": {
+    "name": "Can delete category",
+    "content_type": 8,
+    "codename": "delete_category"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 32,
+  "fields": {
+    "name": "Can view category",
+    "content_type": 8,
+    "codename": "view_category"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 33,
+  "fields": {
+    "name": "Can add customer",
+    "content_type": 9,
+    "codename": "add_customer"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 34,
+  "fields": {
+    "name": "Can change customer",
+    "content_type": 9,
+    "codename": "change_customer"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 35,
+  "fields": {
+    "name": "Can delete customer",
+    "content_type": 9,
+    "codename": "delete_customer"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 36,
+  "fields": {
+    "name": "Can view customer",
+    "content_type": 9,
+    "codename": "view_customer"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 37,
+  "fields": {
+    "name": "Can add cart product",
+    "content_type": 10,
+    "codename": "add_cartproduct"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 38,
+  "fields": {
+    "name": "Can change cart product",
+    "content_type": 10,
+    "codename": "change_cartproduct"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 39,
+  "fields": {
+    "name": "Can delete cart product",
+    "content_type": 10,
+    "codename": "delete_cartproduct"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 40,
+  "fields": {
+    "name": "Can view cart product",
+    "content_type": 10,
+    "codename": "view_cartproduct"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 41,
+  "fields": {
+    "name": "Can add order",
+    "content_type": 11,
+    "codename": "add_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 42,
+  "fields": {
+    "name": "Can change order",
+    "content_type": 11,
+    "codename": "change_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 43,
+  "fields": {
+    "name": "Can delete order",
+    "content_type": 11,
+    "codename": "delete_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 44,
+  "fields": {
+    "name": "Can view order",
+    "content_type": 11,
+    "codename": "view_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 45,
+  "fields": {
+    "name": "Can add product",
+    "content_type": 12,
+    "codename": "add_product"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 46,
+  "fields": {
+    "name": "Can change product",
+    "content_type": 12,
+    "codename": "change_product"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 47,
+  "fields": {
+    "name": "Can delete product",
+    "content_type": 12,
+    "codename": "delete_product"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 48,
+  "fields": {
+    "name": "Can view product",
+    "content_type": 12,
+    "codename": "view_product"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 49,
+  "fields": {
+    "name": "Can add dishwasher",
+    "content_type": 13,
+    "codename": "add_dishwasher"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 50,
+  "fields": {
+    "name": "Can change dishwasher",
+    "content_type": 13,
+    "codename": "change_dishwasher"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 51,
+  "fields": {
+    "name": "Can delete dishwasher",
+    "content_type": 13,
+    "codename": "delete_dishwasher"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 52,
+  "fields": {
+    "name": "Can view dishwasher",
+    "content_type": 13,
+    "codename": "view_dishwasher"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 53,
+  "fields": {
+    "name": "Can add refrigerator",
+    "content_type": 14,
+    "codename": "add_refrigerator"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 54,
+  "fields": {
+    "name": "Can change refrigerator",
+    "content_type": 14,
+    "codename": "change_refrigerator"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 55,
+  "fields": {
+    "name": "Can delete refrigerator",
+    "content_type": 14,
+    "codename": "delete_refrigerator"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 56,
+  "fields": {
+    "name": "Can view refrigerator",
+    "content_type": 14,
+    "codename": "view_refrigerator"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 57,
+  "fields": {
+    "name": "Can add washer",
+    "content_type": 15,
+    "codename": "add_washer"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 58,
+  "fields": {
+    "name": "Can change washer",
+    "content_type": 15,
+    "codename": "change_washer"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 59,
+  "fields": {
+    "name": "Can delete washer",
+    "content_type": 15,
+    "codename": "delete_washer"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 60,
+  "fields": {
+    "name": "Can view washer",
+    "content_type": 15,
+    "codename": "view_washer"
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$260000$DWnR5YmJysL0yseOS2Rs2S$wVCmCU0NstM3Gl0sFMG/xhpQ2N4RMA6vlDTH7j6nnLU=",
+    "last_login": "2021-06-11T17:15:25.159Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2021-06-10T18:35:14.673Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 1,
+  "fields": {
+    "app_label": "admin",
+    "model": "logentry"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 2,
+  "fields": {
+    "app_label": "auth",
+    "model": "permission"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 3,
+  "fields": {
+    "app_label": "auth",
+    "model": "group"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 4,
+  "fields": {
+    "app_label": "auth",
+    "model": "user"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 5,
+  "fields": {
+    "app_label": "contenttypes",
+    "model": "contenttype"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 6,
+  "fields": {
+    "app_label": "sessions",
+    "model": "session"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 7,
+  "fields": {
+    "app_label": "mainapp",
+    "model": "cart"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 8,
+  "fields": {
+    "app_label": "mainapp",
+    "model": "category"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 9,
+  "fields": {
+    "app_label": "mainapp",
+    "model": "customer"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 10,
+  "fields": {
+    "app_label": "mainapp",
+    "model": "cartproduct"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 11,
+  "fields": {
+    "app_label": "mainapp",
+    "model": "order"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 12,
+  "fields": {
+    "app_label": "mainapp",
+    "model": "product"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 13,
+  "fields": {
+    "app_label": "mainapp",
+    "model": "dishwasher"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 14,
+  "fields": {
+    "app_label": "mainapp",
+    "model": "refrigerator"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 15,
+  "fields": {
+    "app_label": "mainapp",
+    "model": "washer"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "a5p64qertleuyp8jnklhc9og5jid0vei",
+  "fields": {
+    "session_data": ".eJxVjMsOgjAQRf-la9PM2AfUpXu-gQwzU0FNSSisjP-uJCx0e88592V62tax36ou_STmYtCcfreB-KFlB3Kncpstz2VdpsHuij1otd0s-rwe7t_BSHX81hmaBBIpKEMIwQ-Nz0kAtIlA0qJkyUzRIfnsneMzZHWY2igakJHN-wPoezgm:1lrRcy:eNG6lC3FmO9V8ALKympYBXgW7818mOwVld-4NsZsuCc",
+    "expire_date": "2021-06-24T20:50:12.031Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "hl6ndlvyym2zbcqcui8467ousuacuv26",
+  "fields": {
+    "session_data": ".eJxVjMsOgjAQRf-la9PM2AfUpXu-gQwzU0FNSSisjP-uJCx0e88592V62tax36ou_STmYtCcfreB-KFlB3Kncpstz2VdpsHuij1otd0s-rwe7t_BSHX81hmaBBIpKEMIwQ-Nz0kAtIlA0qJkyUzRIfnsneMzZHWY2igakJHN-wPoezgm:1lrkkf:eCKrguK2ppcFNtHoT1qOsY-3qpPnJ5deinSimjWPsAg",
+    "expire_date": "2021-06-25T17:15:25.162Z"
+  }
+},
+{
+  "model": "mainapp.category",
+  "pk": 1,
+  "fields": {
+    "name": "Холодильники",
+    "slug": "refrigerators"
+  }
+},
+{
+  "model": "mainapp.category",
+  "pk": 2,
+  "fields": {
+    "name": "Стиральные машины",
+    "slug": "washers"
+  }
+},
+{
+  "model": "mainapp.category",
+  "pk": 3,
+  "fields": {
+    "name": "Посудомоечные машины",
+    "slug": "dishwashers"
+  }
+},
+{
+  "model": "mainapp.refrigerator",
+  "pk": 1,
+  "fields": {
+    "category": 1,
+    "title": "Холодильник Bosch Serie 4 VitaFresh KGN39XL27R",
+    "slug": "bosch-serie-4",
+    "image": "r_bosh_seria_4.jpeg",
+    "description": "полный No Frost, класс A+, инверторный компрессор, зона свежести, 60x66x203 см, серый",
+    "price": "1659.00",
+    "overall_volume": "419 л",
+    "useful_volume": "388 л",
+    "control": "электронное",
+    "noise_level": "38 дБ",
+    "number_of_shelves": "4",
+    "number_of_freezer_shelves": "3"
+  }
+},
+{
+  "model": "mainapp.refrigerator",
+  "pk": 2,
+  "fields": {
+    "category": 1,
+    "title": "Холодильник Indesit ITS 4200 W",
+    "slug": "indesit-ITS",
+    "image": "r_Indesit_ITS.jpeg",
+    "description": "полный No Frost, класс A, 60x64x196 см, белый",
+    "price": "849.00",
+    "overall_volume": "нет данных",
+    "useful_volume": "325 л",
+    "control": "механическое",
+    "noise_level": "43 дБ",
+    "number_of_shelves": "4",
+    "number_of_freezer_shelves": "3"
+  }
+},
+{
+  "model": "mainapp.washer",
+  "pk": 1,
+  "fields": {
+    "category": 2,
+    "title": "Стиральная машина Candy CSS41272DB3/2",
+    "slug": "w-candy",
+    "image": "w_candy.jpeg",
+    "description": "автоматическая стиральная машина, с паром, глубина 40 см (с люком 43.2 см), энергопотребление A+++",
+    "price": "745.92",
+    "max_loading": "7 кг",
+    "max_spin_speed": "1200 об/мин",
+    "number_of_programs": "15",
+    "shortest_program": "14 мин",
+    "electricity_consumption_per_cycle": "0.9 кВт·ч",
+    "water_consumption_per_cycle": "52 л"
+  }
+},
+{
+  "model": "mainapp.washer",
+  "pk": 2,
+  "fields": {
+    "category": 2,
+    "title": "Стиральная машина Bosch WHA122XEBL",
+    "slug": "w-bosch",
+    "image": "w_Bosch.jpeg",
+    "description": "автоматическая стиральная машина, глубина 44.6 см (с люком 48.8 см), энергопотребление A+++, защита от протечек",
+    "price": "1119.00",
+    "max_loading": "7 кг",
+    "max_spin_speed": "1200 об/мин",
+    "number_of_programs": "14",
+    "shortest_program": "15 мин",
+    "electricity_consumption_per_cycle": "1.06 кВт·ч",
+    "water_consumption_per_cycle": "45 л"
+  }
+},
+{
+  "model": "mainapp.dishwasher",
+  "pk": 1,
+  "fields": {
+    "category": 3,
+    "title": "Посудомоечная машина Samsung DW50R4070BB",
+    "slug": "dw-sumsung",
+    "image": "dw_Samsung_DW50R4070BB.jpeg",
+    "description": "черный цвет, индикация на полу: нет",
+    "price": "979.00",
+    "max_load": "10",
+    "drying": true,
+    "drying_type": "конденсационная",
+    "number_of_programs": "6",
+    "noise_level": "46 дБ",
+    "shortest_program": "60 мин.",
+    "water_consumption_per_cycle": "9.9 л",
+    "control": "электронное",
+    "child_lock": true
+  }
+},
+{
+  "model": "mainapp.dishwasher",
+  "pk": 2,
+  "fields": {
+    "category": 3,
+    "title": "Посудомоечная машина Midea MCFD55320W",
+    "slug": "dw-Midea",
+    "image": "dw_Midea.jpeg",
+    "description": "белый цвет, индикация на полу: нет",
+    "price": "599.99",
+    "max_load": "6",
+    "drying": true,
+    "drying_type": "конденсационная",
+    "number_of_programs": "6",
+    "noise_level": "49 дБ",
+    "shortest_program": "нет данных",
+    "water_consumption_per_cycle": "6.5 л",
+    "control": "электронное",
+    "child_lock": false
+  }
+},
+{
+  "model": "mainapp.cartproduct",
+  "pk": 6,
+  "fields": {
+    "user": 1,
+    "cart": 1,
+    "content_type": 15,
+    "object_id": 1,
+    "qty": 3,
+    "final_price": "2237.76"
+  }
+},
+{
+  "model": "mainapp.cart",
+  "pk": 1,
+  "fields": {
+    "owner": 1,
+    "total_products": 1,
+    "final_price": "2237.76",
+    "in_order": false,
+    "for_anonymous_user": false,
+    "products": [
+      6
+    ]
+  }
+},
+{
+  "model": "mainapp.cart",
+  "pk": 2,
+  "fields": {
+    "owner": null,
+    "total_products": 0,
+    "final_price": "0.00",
+    "in_order": false,
+    "for_anonymous_user": true,
+    "products": []
+  }
+},
+{
+  "model": "mainapp.customer",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "phone": null,
+    "address": null,
+    "orders": []
+  }
+}
+]
