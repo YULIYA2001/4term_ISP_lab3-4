@@ -74,15 +74,18 @@ class AddToCartView(CartMixin, View):
         ct_model, product_slug = kwargs.get('ct_model'), kwargs.get('slug')
         content_type = ContentType.objects.get(model=ct_model)
         product = content_type.model_class().objects.get(slug=product_slug)
-        cart_product, created = CartProduct.objects.get_or_create(
-            user=self.cart.owner, cart=self.cart, content_type=content_type, object_id=product.id
-        )
-        if created:
-            self.cart.products.add(cart_product)
-        recalc_cart(self.cart)
-        messages.add_message(request, messages.INFO, "Товар успешно добавлен")
-        # перевод пользователя в корзину
-        return HttpResponseRedirect('/cart/')
+        if self.cart.owner is not None:
+            cart_product, created = CartProduct.objects.get_or_create(
+                user=self.cart.owner, cart=self.cart, content_type=content_type, object_id=product.id
+            )
+            if created:
+                self.cart.products.add(cart_product)
+            recalc_cart(self.cart)
+            messages.info(request, "Товар успешно добавлен")
+            # перевод пользователя в корзину
+            return HttpResponseRedirect('/cart/')
+        messages.error(request, "Для добавления товаров в корзину пройдите авторизацию/регистрацию")
+        return HttpResponseRedirect('/')
 
 
 class DeleteFromCartView(CartMixin, View):
@@ -97,7 +100,7 @@ class DeleteFromCartView(CartMixin, View):
         self.cart.products.remove(cart_product)
         cart_product.delete()
         recalc_cart(self.cart)
-        messages.add_message(request, messages.INFO, "Товар успешно удален")
+        messages.info(request, "Товар успешно удален")
         return HttpResponseRedirect('/cart/')
 
 
@@ -114,7 +117,7 @@ class ChangeQtyView(CartMixin, View):
         cart_product.qty = qty
         cart_product.save()
         recalc_cart(self.cart)
-        messages.add_message(request, messages.INFO, "Количество успешно изменено")
+        messages.info(request, "Количество успешно изменено")
         return HttpResponseRedirect('/cart/')
 
 
@@ -184,7 +187,7 @@ class LoginView(CartMixin, View):
 
     def get(self, request, *args, **kwargs):
         form = LoginForm(request.POST or None)
-        categories = Category.objects.all()
+        categories = Category.objects.get_categories_for_up_sidebar()
         context = {
             'form': form,
             'categories': categories,
@@ -209,7 +212,7 @@ class RegistrationView(CartMixin, View):
 
     def get(self, request, *args, **kwargs):
         form = RegistrationForm(request.POST or None)
-        categories = Category.objects.all()
+        categories = Category.objects.get_categories_for_up_sidebar()
         context = {
             'form': form,
             'categories': categories,
@@ -252,4 +255,3 @@ class ProfileView(CartMixin, View):
             'category': category
         }
         return render(request, 'profile.html', context)
-

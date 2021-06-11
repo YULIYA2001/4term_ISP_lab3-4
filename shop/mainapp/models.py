@@ -79,11 +79,11 @@ class Category(models.Model):
     def get_absolute_url(self):
         return reverse('category_detail', kwargs={'slug': self.slug})
 
-    def get_fields_for_filter_in_template(self):
-        return ProductFeatures.objects.filter(
-            category=self,
-            use_in_filter=True
-        ).prefeatch_related('category').value('feature_key', 'feature_measure', 'feature_name', 'filter_type')
+    # def get_fields_for_filter_in_template(self):
+    #     return ProductFeatures.objects.filter(
+    #         category=self,
+    #         use_in_filter=True
+    #     ).prefeatch_related('category').value('feature_key', 'feature_measure', 'feature_name', 'filter_type')
 
 
 class Product(models.Model):
