@@ -10,7 +10,7 @@ services:
       - POSTGRES_USER=shopuser
       - POSTGRES_PASSWORD=devpass
   web:
-    image: yuliya2001/shop
+    image: yuliya2001/myshop
     command: bash -c "
       python shop/manage.py migrate &&
       python shop/manage.py loaddata shop/db.json &&
