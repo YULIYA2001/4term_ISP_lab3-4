@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mainapp',
-    'crispy_forms'
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -72,9 +72,9 @@ TEMPLATES = [
 WSGI_APPLICATION = 'shop.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-#
+#Database
+#https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -88,6 +88,7 @@ DATABASES = {
         'NAME': 'shop_db',
         'USER': 'shopuser',
         'PASSWORD': 'devpass',
+        #'HOST': '127.0.0.1',
         'HOST': 'db',
         'PORT': 5432
     }
@@ -146,3 +147,14 @@ STATICFILES_DIRS = (
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+logging_file = 'app.log'
+logging_level = 'INFO'
+
+# для отправки письма
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'shop1234django@gmail.com'
+EMAIL_HOST_PASSWORD = 's1h2o3p4'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+

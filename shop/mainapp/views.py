@@ -5,12 +5,20 @@ from django.contrib.auth import authenticate, login
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponseRedirect
 from django.views.generic import DetailView, View
+from django.core.mail import send_mail, EmailMessage
+
+from threading import Thread
 
 from .models import Refrigerator, Washer, Dishwasher, Category, \
     LatestProducts, Customer, CartProduct, Order
 from .mixins import CategoryDetailMixin, CartMixin
 from .forms import OrderForm, LoginForm, RegistrationForm
 from .utils import recalc_cart
+from shop.settings import logging_file, logging_level, EMAIL_HOST_USER
+
+import logging
+
+logging.basicConfig(filename=logging_file, filemode='w', level=getattr(logging, logging_level))
 
 
 class BaseView(CartMixin, View):
@@ -74,7 +82,7 @@ class AddToCartView(CartMixin, View):
         ct_model, product_slug = kwargs.get('ct_model'), kwargs.get('slug')
         content_type = ContentType.objects.get(model=ct_model)
         product = content_type.model_class().objects.get(slug=product_slug)
-        if self.cart.owner is not None:
+        if not self.cart is None:
             cart_product, created = CartProduct.objects.get_or_create(
                 user=self.cart.owner, cart=self.cart, content_type=content_type, object_id=product.id
             )
@@ -82,9 +90,11 @@ class AddToCartView(CartMixin, View):
                 self.cart.products.add(cart_product)
             recalc_cart(self.cart)
             messages.info(request, "Товар успешно добавлен")
+            logging.info("Товар успешно добавлен")
             # перевод пользователя в корзину
             return HttpResponseRedirect('/cart/')
         messages.error(request, "Для добавления товаров в корзину пройдите авторизацию/регистрацию")
+        logging.error("Для добавления товаров в корзину пройдите авторизацию/регистрацию")
         return HttpResponseRedirect('/')
 
 
@@ -101,6 +111,7 @@ class DeleteFromCartView(CartMixin, View):
         cart_product.delete()
         recalc_cart(self.cart)
         messages.info(request, "Товар успешно удален")
+        logging.info("Товар успешно удален")
         return HttpResponseRedirect('/cart/')
 
 
@@ -118,6 +129,7 @@ class ChangeQtyView(CartMixin, View):
         cart_product.save()
         recalc_cart(self.cart)
         messages.info(request, "Количество успешно изменено")
+        logging.info("Количество успешно изменено")
         return HttpResponseRedirect('/cart/')
 
 
@@ -151,11 +163,13 @@ class MakeOrderView(CartMixin, View):
     def post(self, request, *args, **kwargs):
         form = OrderForm(request.POST or None)
         customer = Customer.objects.get(user=request.user)
+        logging.error("customer is {}".format(customer.user))
+
         if form.is_valid():
             new_order = form.save(commit=False)
             new_order.customer = customer
-            new_order.first_name = form.cleaned_data['first_name']
-            new_order.last_name = form.cleaned_data['last_name']
+            new_order.first_name = request.user.first_name
+            new_order.last_name = request.user.last_name
             new_order.phone = form.cleaned_data['phone']
             new_order.address = form.cleaned_data['address']
             new_order.buying_type = form.cleaned_data['buying_type']
@@ -168,8 +182,10 @@ class MakeOrderView(CartMixin, View):
             new_order.save()
             customer.orders.add(new_order)
             messages.add_message(request, messages.INFO, 'Спасибо за заказ!')
+            logging.info('Спасибо за заказ!')
             return HttpResponseRedirect('/')
-        return HttpResponseRedirect('/checkout/')
+        context = {'form': form, 'cart': self.cart}
+        return render(request, 'checkout.html', context)
 
 
 class ContactsView(CartMixin, View):
@@ -238,6 +254,17 @@ class RegistrationView(CartMixin, View):
             )
             user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
             login(request, user)
+
+            # отправка письма об успешной регистрации
+            message = f'''Здравствуйте, {user.first_name} {user.last_name}!  
+            Регистрация прошла успешно
+            Приятных Вам покупок
+                                                                                        Администрация Shop'''
+            t = Thread(target=send_mail, args=('Регистрация Shop', message, EMAIL_HOST_USER,
+                                               [user.email]), kwargs={'fail_silently': False})
+            t.start()
+            # send_mail('Регистрация Shop', message, 'shop1234django@gmail.com',
+            #          [user.email], fail_silently=False)
             return HttpResponseRedirect('/')
         context = {'form': form, 'cart': self.cart}
         return render(request, 'registration.html', context)
@@ -248,10 +275,10 @@ class ProfileView(CartMixin, View):
     def get(self, request, *args, **kwargs):
         customer = Customer.objects.get(user=request.user)
         orders = Order.objects.filter(customer=customer).order_by('-created_at')
-        category = Category.objects.all()
+        categories = Category.objects.get_categories_for_up_sidebar()
         context = {
             'orders': orders,
             'cart': self.cart,
-            'category': category
+            'categories': categories
         }
         return render(request, 'profile.html', context)

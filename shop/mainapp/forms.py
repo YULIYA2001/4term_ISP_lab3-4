@@ -1,21 +1,41 @@
 from django import forms
 from django.contrib.auth.models import User
+from datetime import date
 
 from .models import Order
 
 
 class OrderForm(forms.ModelForm):
+    phone = forms.RegexField(regex=r'^\+375\((17|29|33|44)\)[0-9]{7}$',
+                             required=True, help_text="формат ввода: +375(00)0000000",
+                             error_messages={'invalid': "Неверный формат ввода"})
+    address = forms.CharField(required=True)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['order_date'].label = 'Дата получения заказа'
+        self.fields['phone'].label = 'Номер телефона'
+        self.fields['address'].label = 'Адрес доставки'
 
     order_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
+
+    def clean_order_date(self):
+        order_date = self.cleaned_data['order_date']
+        if order_date < date.today():
+            raise forms.ValidationError(f'Введенная дата является прошедшей.')
+        return order_date
+
+    def clean_address(self):
+        address = self.cleaned_data['address']
+        if not address:
+            raise forms.ValidationError(f'Введите адрес.')
+        return address
 
     class Meta:
         model = Order
         fields = (
-            'first_name', 'last_name', 'phone', 'address', 'buying_type', 'order_date', 'comment'
+            'phone', 'buying_type', 'address', 'order_date', 'comment'
+            # 'first_name', 'last_name', 'phone', 'address', 'buying_type', 'order_date', 'comment'
         )
 
 
@@ -46,9 +66,13 @@ class LoginForm(forms.ModelForm):
 class RegistrationForm(forms.ModelForm):
     confirm_password = forms.CharField(widget=forms.PasswordInput)
     password = forms.CharField(widget=forms.PasswordInput)
-    phone = forms.CharField(required=False)
+    phone = forms.RegexField(regex=r'^\+375\((17|29|33|44)\)[0-9]{7}$',
+                             required=False, help_text="формат ввода: +375(00)0000000",
+                             error_messages={'invalid': "Неверный формат ввода"})
     address = forms.CharField(required=False)
     email = forms.EmailField(required=True)
+    first_name = forms.CharField(required=True)
+    last_name = forms.CharField(required=True)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -63,9 +87,9 @@ class RegistrationForm(forms.ModelForm):
 
     def clean_email(self):
         email = self.cleaned_data['email']
-        domain = email.split('.')[-1]
-        if domain in ['net']:
-            raise forms.ValidationError(f'Регистрация для домена "{domain}" невозможна')
+        #domain = email.split('.')[-1]
+        #if domain is not ['com']:
+        #    raise forms.ValidationError(f'Регистрация для домена "{domain}" невозможна')
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError(f'Данный почтовый адрес уже зарегистрирован')
         return email

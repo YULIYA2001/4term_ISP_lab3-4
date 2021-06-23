@@ -51,6 +51,7 @@
                                 {% endif %}
                             </li>
                     </ul>
+                    {% if cart is not None %}
                     <form class="d-flex">
                         <a class="nav-link" href="{% url 'cart' %}" style="color: green">
                             <i class="bi-cart-fill me-1"></i>
@@ -58,6 +59,7 @@
                             <span class="badge bg-success text-white ms-1 rounded-pill">{{ cart.products.count }}</span>
                         </a>
                     </form>
+                    {% endif %}
                 </div>
             </div>
         </nav>
@@ -74,12 +76,38 @@
             <div class="container px-4 px-lg-5 mt-5">
                 {% block content %}
                 {% if messages %}
-                   {% for message in messages %}
-                      <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags}}{% endif %} alert-dismissible fade show" role="alert">
-                        <strong>{{ message }}</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                      </div>
-                   {% endfor %}
+
+                      <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+                      <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+                      <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+                      <script type="text/javascript">
+                      {% for message in messages %}
+
+                      $(document).ready(function() {
+                        toastr.options.timeOut = 3000;
+                        toastr.options.closeButton = true;
+                        toastr.options.closeMethod = 'fadeOut';
+                        toastr.options.closeDuration = 300;
+                        toastr.options.closeEasing = 'swing';
+                        toastr.options.newestOnTop = false;
+                        toastr.options.progressBar = true;
+
+                        toastr['{{ message.tags }}']('{{ message }}');
+
+                        $('#linkButton').click(function() {
+                           toastr.success('Click Button');
+                        });
+                      });
+
+                      {% endfor %}
+                      </script>
+
+<!--                   {% for message in messages %}-->
+<!--                      <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags}}{% endif %} alert-dismissible fade show" role="alert">-->
+<!--                        <strong>{{ message }}</strong>-->
+<!--                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>-->
+<!--                      </div>-->
+<!--                   {% endfor %}-->
                 {% endif %}
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                     {% for product in products %}
@@ -116,6 +144,6 @@
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
+<!--с этим выдает WARNING   <script src="js/scripts.js"></script>-->
     </body>
 </html>
